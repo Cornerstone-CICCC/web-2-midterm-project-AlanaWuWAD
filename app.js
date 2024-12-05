@@ -7,6 +7,49 @@ $(function () {
     }
   };
 
+  //search
+  const dialog = document.querySelector('dialog');
+  const closeButton = document.querySelector('#close');
+  const searchList = document.querySelector('.search-list');
+  const text = document.querySelector('.search-text');
+  const btnSearch = document.querySelector('.fa-solid');
+
+  btnSearch.addEventListener('click', () => {
+    if (text.value) {
+      overlay.classList.remove('hidden');
+      search(text.value);
+      // console.log(text.value)
+    } else {
+      alert('Please input movie name!')
+    }
+  });
+  closeButton.addEventListener('click', () => {
+    dialog.close();
+    overlay.classList.add('hidden');
+  });
+
+  async function search(name) {
+    let searchUrl = `https://api.themoviedb.org/3/search/movie?query=${name}`;
+    try {
+      let res = await fetch(searchUrl, options);
+      let data = await res.json();
+      searchList.innerHTML = '';
+      data.results.forEach((i) => {
+        if (i.backdrop_path) {
+          searchList.innerHTML += `
+          <div class='div-img'>
+            <p>${i.title}</p>
+            <img class='img-list' data-movie-id="${i.id}" src="https://image.tmdb.org/t/p/w200/${i.backdrop_path}" alt=""> 
+          </div>  
+        `
+        }
+        dialog.showModal();
+      })
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // Trending movies and TV
   let popular = document.querySelector('.trendingAll');
   async function trendingAll() {
@@ -25,7 +68,6 @@ $(function () {
         // console.log('click', e.target.dataset.movieId)
         videoAll(e.target.dataset.movieId, e.target.dataset.mediaType)
       })
-
     } catch (e) {
       console.error(e);
     }
@@ -100,7 +142,6 @@ $(function () {
       console.error(e);
     }
   }
-  // movieDetail(912649)
 
   //Trending shows
   let trendingShow = document.querySelector('.trendingShow');
@@ -134,8 +175,6 @@ $(function () {
       let res = await fetch(upcommingUrl, options);
       let data = await res.json();
       const id = Math.random() * 10 | 0;
-      console.log('up', data.results)
-      console.log(id)
       upcomming.innerHTML += `
           <div class="commingMovie">
           <img class='comming-movie-img' id="${data.results[id].id}" src="https://image.tmdb.org/t/p/w500/${data.results[id].poster_path}" alt="">
@@ -147,8 +186,8 @@ $(function () {
             <button class="trailer">Watch Trailer</button>
           </div>
         `;
-      
-        // backgroung img
+
+      // backgroung img
       const bkgImgUrl = `https://image.tmdb.org/t/p/w500/${data.results[id].poster_path}`;
 
       upcomming.style.backgroundImage = `linear-gradient(rgba(0, 0, 255, 0.3), rgba(255, 255, 0, 0.5)),url('${bkgImgUrl}')`;
@@ -157,4 +196,22 @@ $(function () {
     }
   }
   upcommingMovie()
+
+  //toTop btn
+  const toTopBtn = document.getElementById('toTopBtn');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      toTopBtn.classList.remove('hidden');
+    } else {
+      toTopBtn.classList.add('hidden');
+    }
+  });
+
+  toTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', 
+    });
+  });
+
 })

@@ -21,31 +21,117 @@ body {
     color: white;
     font-family: 'Manrope';
 }
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明效果 */
+    z-index: 1; /* 低於 dialog */
+}
+.hidden {
+    display: none;
+  }
+dialog {
+    position: absolute;
+    top: 80px;
+    left:20%;
+    width: 60%;
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 4px 4px 6px 6px rgba(140, 137, 137, 0.6);
+    background-color: rgb(10, 17, 22);
+    z-index: 999; /* 高於 overlay */
+}
+.search-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.div-img{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0.2rem;
+}
+.div-img p{
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    width: 200px;
+    margin-bottom: 0.5rem;
+    display: -webkit-box; /* 必須搭配 */
+    -webkit-line-clamp: 1; /* 顯示行數限制 */
+    -webkit-box-orient: vertical; /* 必須搭配 */
+    overflow: hidden;
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 單行限制 */
+}
 
+#close {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 15px;
+    color: hsl(220deg 14.34% 84.07%);
+    background-color: grey;
+    font-weight: 700;
+    border: 2px solid;
+    border-radius: 3px;
+}
+.img-list{
+    width: 200px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); 
+}
 header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    margin: 2rem;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    background-color: var(--dark-Grayish-Blue);
 }
-
+/* 
 header h1 {
     color: aqua;
+    font-size: 1.5rem;
+    text-align: center;
+} */
+           
+.styledDialog::backdrop {
+  background-color: rgba(151, 20, 20, 0.5);
 }
+
 
 header ul {
     display: flex;
-    gap: 1rem;
+    justify-content: space-between;
+    gap: 2rem;
     list-style-type: none;
 }
 
 header ul li a {
     text-decoration: none;
+    font-size: 1.5rem;
     font-weight: 800;
     color: white;
 }
-
+.search input{
+    width: 200px;
+    height: 1.5rem;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+}
+.search i{
+    font-size: 1.5rem;
+}
 .trendingAll {
     display: flex;
     flex-wrap: nowrap;
@@ -121,7 +207,7 @@ h2 {
     justify-content: center;
 }
 .movieName:hover p, .showName:hover p{
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: white;
     margin-left: 5px;
     text-align: center;
@@ -179,12 +265,39 @@ h2 {
     border: 3px solid var(--light-cyan);
     box-shadow: 12px 12px 2px 1px rgba(49, 49, 101, 0.2);
 }
-footer{
-    font-size: 2rem;
+footer{ 
     display: flex;
-    gap: 2rem;
+    flex-direction: column;
     justify-content: center;
-    padding: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem;
     background-color: var(--dark-Grayish-Blue);
     color: white;
 }
+footer i{
+    padding: 1rem;
+    font-size: 2rem;
+}
+#toTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: #5cc0c1;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(42, 41, 41, 0.7);
+  }
+  #toTopBtn.hidden {
+    display: none;
+  }
+  #toTopBtn:hover {
+    background-color: #0056b3;
+  }
