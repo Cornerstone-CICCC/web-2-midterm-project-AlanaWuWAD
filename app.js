@@ -69,16 +69,16 @@ $(function () {
         trailerHidden.classList.remove('trailer-hidden');
         videoAll(e.target.dataset.movieId, e.target.dataset.mediaType)
       })
-      closeTrailer.addEventListener('click',()=>{
+      closeTrailer.addEventListener('click', () => {
         trailerHidden.classList.add('trailer-hidden');
-        document.getElementById('trailerPlayer').src = ""; 
+        document.getElementById('trailerPlayer').src = "";
       })
     } catch (e) {
       console.error(e);
     }
   }
   trendingAll()
-    
+
   // Function of playing videos
   const trailerPlayer = document.querySelector('#trailerPlayer');
   async function videoAll(id, mediaType) {
@@ -172,7 +172,8 @@ $(function () {
   showsTop10()
 
   //Comming soon
-  let upcomming = document.querySelector('.upcomming');
+  const upcomming = document.querySelector('.upcomming');
+
   const upcommingUrl = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
 
   async function upcommingMovie() {
@@ -188,9 +189,31 @@ $(function () {
             <h1>${data.results[id].title}</h1>
             <p>${data.results[id].overview}</p>
             <p>${data.results[id].release_date}</p>
-            <button class="trailer">Watch Trailer</button>
+            <button class="upcomming-trailer">Watch Trailer</button>
           </div>
         `;
+
+      // upcomming trailer play
+      let lastScrollPosition = 0;
+      const trailerBtn = document.querySelector('.upcomming-trailer');
+      trailerBtn.addEventListener('click', () => {
+        lastScrollPosition = window.scrollY;
+        trailerHidden.classList.remove('trailer-hidden');
+        videoAll(data.results[id].id, 'movie')
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      })
+
+      closeTrailer.addEventListener('click', () => {
+        trailerHidden.classList.add('trailer-hidden');
+        document.getElementById('trailerPlayer').src = "";
+        window.scrollTo({
+          top: lastScrollPosition,
+          behavior: 'smooth',
+        });
+      })
 
       // backgroung img
       const bkgImgUrl = `https://image.tmdb.org/t/p/w500/${data.results[id].poster_path}`;
@@ -215,7 +238,7 @@ $(function () {
   toTopBtn.addEventListener('click', () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', 
+      behavior: 'smooth',
     });
   });
 
