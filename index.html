@@ -26,19 +26,20 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
         </header>
-        <!-- <iframe id="trailerPlayer" width="560" height="315" src="" frameborder="0" allow="autoplay; encrypted-media" -->
-            <!-- allowfullscreen></iframe> -->
-        <!-- <section class="search2"></section> -->
+        <!-- trailer play -->
+         <div class="trailer-container trailer-hidden">
+            <iframe id="trailerPlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <button id="closeTrailer">X</button>
+         </div>
 
         <!-- dialog -->
         <div id="overlay" class="hidden"></div>
         <dialog>
             <div class="search-list"></div>
-            <button id="close">&times; Close</button>
+            <button id="close">X</button>
         </dialog>
-        
-        <!-- dialog -->
 
+        <h2 class="trend" id="item-popular">Pupular</h2>
         <section class="trendingAll"></section>
 
         <h2 class="trend">Now Playing Moives</h2>

@@ -51,7 +51,9 @@ $(function () {
   };
 
   // Trending movies and TV
-  let popular = document.querySelector('.trendingAll');
+  const trendingVideos = document.querySelector('.trendingAll');
+  const closeTrailer = document.querySelector('#closeTrailer');
+  const trailerHidden = document.querySelector('.trailer-hidden');
   async function trendingAll() {
     try {
       let res = await fetch('https://api.themoviedb.org/3/trending/all/day?language=en-US', options);
@@ -59,21 +61,24 @@ $(function () {
       console.log('ALL', data.results)
       for (let i = 0; i < 6; i++) {
         // console.log('for', data.results[i].poster_path)
-        popular.innerHTML += `
+        trendingVideos.innerHTML += `
           <img class='popular' data-movie-id="${data.results[i].id}" data-media-type="${data.results[i].media_type}" src="https://image.tmdb.org/t/p/w300/${data.results[i].poster_path}" alt=""> 
         `;
       }
-      popular.addEventListener('click', (e) => {
-        console.log('click', e.target)
-        // console.log('click', e.target.dataset.movieId)
+      trendingVideos.addEventListener('click', (e) => {
+        trailerHidden.classList.remove('trailer-hidden');
         videoAll(e.target.dataset.movieId, e.target.dataset.mediaType)
+      })
+      closeTrailer.addEventListener('click',()=>{
+        trailerHidden.classList.add('trailer-hidden');
+        document.getElementById('trailerPlayer').src = ""; 
       })
     } catch (e) {
       console.error(e);
     }
   }
   trendingAll()
-
+    
   // Function of playing videos
   const trailerPlayer = document.querySelector('#trailerPlayer');
   async function videoAll(id, mediaType) {
