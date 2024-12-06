@@ -35,21 +35,7 @@ body {
     display: none;
 }
 
-.dark-mode header {
-
-}
-
-
-
-/* #trailerPlayer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    object-fit: cover;
-} */
+.dark-mode header {}
 
 #closeTrailer {
     position: absolute;
@@ -100,7 +86,7 @@ dialog {
     flex-wrap: wrap;
     justify-content: start;
     align-items: center;
-    gap:5px;
+    gap: 5px;
 }
 
 .div-img {
@@ -160,17 +146,13 @@ header {
     background-color: var(--dark-Grayish-Blue);
 }
 
-/* 
-header h1 {
-    color: aqua;
-    font-size: 1.5rem;
-    text-align: center;
-} */
-
 .styledDialog::backdrop {
     background-color: rgba(151, 20, 20, 0.5);
 }
 
+header h1{
+    color: rgb(108, 211, 176);
+}
 header ul {
     display: flex;
     justify-content: space-between;
@@ -184,6 +166,18 @@ header ul li a {
     font-weight: 800;
     color: white;
 }
+
+header ul li a:hover,
+.search i:hover {
+    color: aquamarine;
+}
+
+.active {
+    font-weight: bold;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
 
 .search input {
     width: 200px;
@@ -228,15 +222,18 @@ header ul li a {
     transform: scale(1.3) translateX(-50px);
     /*left side*/
 }
+
 h2 {
     margin: 6rem 2rem 3rem 2rem;
     /* margin-bottom: 3rem; */
     font-size: var(--font-catalog);
     font-weight: var(--font-weight);
 }
+
 #item-popular {
     margin: 0rem 0rem 0rem 2rem;
 }
+
 .trendingMovie,
 .trendingShow {
     margin: 2rem;
@@ -280,7 +277,8 @@ h2 {
     cursor: pointer;
 }
 
-.movieName:hover .movieDetail, .showName:hover .movieDetail{
+.movieName:hover .movieDetail,
+.showName:hover .movieDetail {
     opacity: 1;
 }
 
@@ -292,7 +290,7 @@ h2 {
     /* text-align: center; */
 }
 
-.movieDetail{
+.movieDetail {
     opacity: 0;
     transition: opacity 0.2s ease-in;
     margin-top: 2px;
@@ -336,7 +334,7 @@ h2 {
     justify-content: center;
     gap: 2rem;
     padding: 2rem;
-    
+
 }
 
 .movieInfo h1 {
@@ -349,7 +347,7 @@ h2 {
     width: 10rem;
     height: 3rem;
     border-radius: 10px;
-    background-color:  rgb(25, 46, 39);
+    background-color: rgb(25, 46, 39);
     color: var(--light-cyan);
     font-weight: var(--font-weight);
     font-size: 1.2rem;
@@ -419,7 +417,7 @@ footer i {
     }
 }
 
-.modal{
+.modal {
     display: none;
     position: fixed;
     z-index: 20;
@@ -430,8 +428,9 @@ footer i {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.2);
 }
-.modal-content{
-    background-color:var(--dark-Blue);
+
+.modal-content {
+    background-color: var(--dark-Blue);
     margin: 15% auto;
     padding: 30px;
     /* border: 1px solid #888; */
