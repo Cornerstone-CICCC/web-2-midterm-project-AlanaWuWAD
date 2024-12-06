@@ -60,19 +60,24 @@ $(function () {
       let data = await res.json();
       console.log('ALL', data.results)
       for (let i = 0; i < 6; i++) {
+        let img = document.createElement('img')
+        img.classList.add('popular');
+        img.src = `https://image.tmdb.org/t/p/w300/${data.results[i].poster_path}`
+        trendingVideos.append(img)
         // console.log('for', data.results[i].poster_path)
-        trendingVideos.innerHTML += `
-          <img class='popular' data-movie-id="${data.results[i].id}" data-media-type="${data.results[i].media_type}" src="https://image.tmdb.org/t/p/w300/${data.results[i].poster_path}" alt=""> 
-        `;
+        // trendingVideos.innerHTML += `
+        //   <img class='popular' data-movie-id="${data.results[i].id}" data-media-type="${data.results[i].media_type}" src="https://image.tmdb.org/t/p/w300/${data.results[i].poster_path}" alt=""> 
+        // `;
+        creatModal(data.results[i].id, img)
       }
-      trendingVideos.addEventListener('click', (e) => {
-        trailerHidden.classList.remove('trailer-hidden');
-        videoAll(e.target.dataset.movieId, e.target.dataset.mediaType)
-      })
-      closeTrailer.addEventListener('click', () => {
-        trailerHidden.classList.add('trailer-hidden');
-        document.getElementById('trailerPlayer').src = "";
-      })
+      // trendingVideos.addEventListener('click', (e) => {
+      //   trailerHidden.classList.remove('trailer-hidden');
+      //   videoAll(e.target.dataset.movieId, e.target.dataset.mediaType)
+      // })
+      // closeTrailer.addEventListener('click', () => {
+      //   trailerHidden.classList.add('trailer-hidden');
+      //   document.getElementById('trailerPlayer').src = "";
+      // })
     } catch (e) {
       console.error(e);
     }
@@ -80,28 +85,28 @@ $(function () {
   trendingAll()
 
   // Function of playing videos
-  const trailerPlayer = document.querySelector('#trailerPlayer');
-  async function videoAll(id, mediaType) {
-    console.log('vidoeALL', id, mediaType)
-    try {
-      let res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos?language=en-US`, options);
-      let data = await res.json();
+  // const trailerPlayer = document.querySelector('#trailerPlayer');
+  // async function videoAll(id, mediaType) {
+  //   console.log('vidoeALL', id, mediaType)
+  //   try {
+  //     let res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos?language=en-US`, options);
+  //     let data = await res.json();
 
-      // type: 'Trailer'
-      const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+  //     // type: 'Trailer'
+  //     const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
 
-      if (trailer) {
-        // build YouTube URL
-        const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`;
-        trailerPlayer.src = youtubeUrl;
-      } else {
-        console.log('No trailer available for this movie.');
-        trailerPlayer.parentElement.innerHTML = '<p>No trailer available for this movie.</p>';
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  //     if (trailer) {
+  //       // build YouTube URL
+  //       const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`;
+  //       trailerPlayer.src = youtubeUrl;
+  //     } else {
+  //       console.log('No trailer available for this movie.');
+  //       trailerPlayer.parentElement.innerHTML = '<p>No trailer available for this movie.</p>';
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
   // Movies top 10
   let trendingMovie = document.querySelector('.trendingMovie');
@@ -114,18 +119,21 @@ $(function () {
 
       console.log(data.results)
       for (let i = 0; i < 10; i++) {
+        let dataDetail = await movieDetail(data.results[i].id, 'movie');
+        // console.log('dataD',dataDetail);
+          
         trendingMovie.innerHTML += `
           <div class="movieName"><p>${data.results[i].title}</p>
           <img class='moviesTop10' id="${data.results[i].id}" src="https://image.tmdb.org/t/p/w300/${data.results[i].backdrop_path}" alt="">
+          <div class="movieDetail">
+                <p>Release Date: ${dataDetail.release_date}</p>
+                <p>Popular: ${dataDetail.vote_average}</p>
+                <p>Runtime: ${Math.floor(dataDetail.runtime / 60)} hr ${dataDetail.runtime%60}min</p>
+            </div>
           </div>
+           
         `;
-        //insert runtime
-        // const id = data.results[i].id;
-        // movieDetail(id).then(runtime => {
-        //   const element = document.querySelector(`#${id}`);
-        //   document.querySelector(`#${id}`).innerHTML += `<p>${runtime}</P>`;
-        //   console.log('dddd',runtime)
-        // });
+        
       }
     } catch (e) {
       console.error(e);
@@ -134,15 +142,16 @@ $(function () {
   }
   moviesTop10()
 
-  async function movieDetail(id) {
-    const movieDetail = `https://api.themoviedb.org/3/movie/${id}`;
+  async function movieDetail(id, type) {
+    const movieDetail = `https://api.themoviedb.org/3/${type}/${id}`;
     try {
       let res = await fetch(movieDetail, options);
       let data = await res.json();
-      let runtime_hr = Math.floor(data.runtime / 60);
-      let runtime_min = data.runtime % 60;
-      console.log('detail', runtime_hr, runtime_min)
-      return `${runtime_hr}hr ${runtime_min}min`
+      return data;
+      // let runtime_hr = Math.floor(data.runtime / 60);
+      // let runtime_min = data.runtime % 60;
+      // console.log('detail', runtime_hr, runtime_min)
+      // return `${runtime_hr}hr ${runtime_min}min`
     } catch (e) {
       console.error(e);
     }
@@ -156,13 +165,21 @@ $(function () {
     try {
       let res = await fetch(showUrl, options);
       let data = await res.json();
-
+      
       console.log(data.results)
       for (let i = 0; i < 10; i++) {
+        let dataDetail = await movieDetail(data.results[i].id, 'tv');
+        console.log(dataDetail)
         trendingShow.innerHTML += `
           <div class="showName"><p>${data.results[i].name}</p>
           <img class='showsTop10' id="${data.results[i].id}" src="https://image.tmdb.org/t/p/w300/${data.results[i].backdrop_path}" alt="">
+          <div class="movieDetail">
+                <p>Release Date: ${dataDetail.first_air_date}</p>
+                <p>Popular: ${dataDetail.vote_average}</p>
+                <p>Country: ${dataDetail.origin_country}</p>
+            </div>
           </div>
+           
         `;
       }
     } catch (e) {
@@ -189,31 +206,32 @@ $(function () {
             <h1>${data.results[id].title}</h1>
             <p>${data.results[id].overview}</p>
             <p>${data.results[id].release_date}</p>
-            <button class="upcomming-trailer">Watch Trailer</button>
+            <button class="upcomming-btn">Watch Trailer</button>
           </div>
         `;
 
       // upcomming trailer play
       let lastScrollPosition = 0;
       const trailerBtn = document.querySelector('.upcomming-trailer');
-      trailerBtn.addEventListener('click', () => {
-        lastScrollPosition = window.scrollY;
-        trailerHidden.classList.remove('trailer-hidden');
-        videoAll(data.results[id].id, 'movie')
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      })
+      
+      // trailerBtn.addEventListener('click', () => {
+      //   lastScrollPosition = window.scrollY;
+      //   trailerHidden.classList.remove('trailer-hidden')
+      //   videoAll(data.results[id].id, 'movie')
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: 'smooth',
+      //   })
+      // })
 
-      closeTrailer.addEventListener('click', () => {
-        trailerHidden.classList.add('trailer-hidden');
-        document.getElementById('trailerPlayer').src = "";
-        window.scrollTo({
-          top: lastScrollPosition,
-          behavior: 'smooth',
-        });
-      })
+      // closeTrailer.addEventListener('click', () => {
+      //   trailerHidden.classList.add('trailer-hidden');
+      //   document.getElementById('trailerPlayer').src = "";
+      //   window.scrollTo({
+      //     top: lastScrollPosition,
+      //     behavior: 'smooth',
+      //   });
+      // })
 
       // backgroung img
       const bkgImgUrl = `https://image.tmdb.org/t/p/w500/${data.results[id].poster_path}`;
@@ -241,5 +259,51 @@ $(function () {
       behavior: 'smooth',
     });
   });
+
+  function creatModal(movie,container){
+  const modal = document.querySelector('.modal');
+  const modalContent = document.querySelector('.modal-content');
+  container.onclick = ()=>{
+    modal.style.display = 'block';
+    videoAll(movie, 'movie')
+  }
+  window.onclick = (e)=>{
+    if(e.target == modal){
+      modal.style.display = 'none';
+      trailerPlayer.innerHTML = '';
+      trailerPlayer.src = '';
+    }
+  }
+}
+
+const trailerPlayer = document.querySelector('#trailerPlayer');
+async function videoAll(id, mediaType) {
+  console.log('vidoeALL', id, mediaType)
+  try {
+    let res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos?language=en-US`, options);
+    let data = await res.json();
+    console.log(data)
+    const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+    console.log(trailer)
+    const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`
+    trailerPlayer.src = youtubeUrl;
+
+
+    
+    // type: 'Trailer'
+    // const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+
+    // if (trailer) {
+    //   // build YouTube URL
+    //   // const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`;
+    //   // trailerPlayer.src = youtubeUrl;
+    // } else {
+    //   console.log('No trailer available for this movie.');
+    //   // trailerPlayer.parentElement.innerHTML = '<p>No trailer available for this movie.</p>';
+    // }
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 })

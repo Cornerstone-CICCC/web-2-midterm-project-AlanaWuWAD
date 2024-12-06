@@ -18,7 +18,7 @@
         <header>
             <ul>
                 <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="./about.html" target="_blank">About</a></li>
             </ul>
             <!-- <h1>VISUAL</h1> -->
             <div class="search">
@@ -26,11 +26,19 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
         </header>
+        <div class="modal">
+            <div class="modal-content">
+                <iframe width="560" height="315" id="trailerPlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
         <!-- trailer play -->
-         <div class="trailer-container trailer-hidden">
+        <!-- <div class="trailer-container trailer-hidden">
             <iframe id="trailerPlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <button id="closeTrailer">X</button>
-         </div>
+        </div> -->
+
+        
+        </div>
 
         <!-- dialog -->
         <div id="overlay" class="hidden"></div>
@@ -39,10 +47,10 @@
             <button id="close">X</button>
         </dialog>
 
-        <h2 class="trend" id="item-popular">Pupular</h2>
+        <h2 class="trend" id="item-popular">Popular</h2>
         <section class="trendingAll"></section>
 
-        <h2 class="trend">Now Playing Moives</h2>
+        <h2 class="trend">Now Playing Movies</h2>
         <section class="trendingMovie"></section>
 
         <h2 class="trend">Trending Shows</h2>
@@ -52,7 +60,6 @@
         <section class="upcomming"></section>
         <!-- <section class="upcomming-trailer"></section> -->
     </main>
-
     <footer>
         <div>
             <i class="fa-brands fa-instagram"></i>
@@ -64,7 +71,7 @@
     </footer>
 
     <button id="toTopBtn" class="hidden">&#9650;Top</button>
-    
+
 
 </body>
 
