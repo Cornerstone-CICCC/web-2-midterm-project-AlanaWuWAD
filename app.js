@@ -121,19 +121,19 @@ $(function () {
       for (let i = 0; i < 10; i++) {
         let dataDetail = await movieDetail(data.results[i].id, 'movie');
         // console.log('dataD',dataDetail);
-          
+
         trendingMovie.innerHTML += `
           <div class="movieName"><p>${data.results[i].title}</p>
           <img class='moviesTop10' id="${data.results[i].id}" src="https://image.tmdb.org/t/p/w300/${data.results[i].backdrop_path}" alt="">
           <div class="movieDetail">
                 <p>Release Date: ${dataDetail.release_date}</p>
                 <p>Popular: ${dataDetail.vote_average}</p>
-                <p>Runtime: ${Math.floor(dataDetail.runtime / 60)} hr ${dataDetail.runtime%60}min</p>
+                <p>Runtime: ${Math.floor(dataDetail.runtime / 60)} hr ${dataDetail.runtime % 60}min</p>
             </div>
           </div>
            
         `;
-        
+
       }
     } catch (e) {
       console.error(e);
@@ -165,11 +165,12 @@ $(function () {
     try {
       let res = await fetch(showUrl, options);
       let data = await res.json();
-      
-      console.log(data.results)
-      for (let i = 0; i < 10; i++) {
+      // console.log(data.results)
+      let count =0;
+      let i =0;
+      while (count < 10 && i < data.results.length) {
         let dataDetail = await movieDetail(data.results[i].id, 'tv');
-        console.log(dataDetail)
+        if(data.results[i].backdrop_path){
         trendingShow.innerHTML += `
           <div class="showName"><p>${data.results[i].name}</p>
           <img class='showsTop10' id="${data.results[i].id}" src="https://image.tmdb.org/t/p/w300/${data.results[i].backdrop_path}" alt="">
@@ -179,8 +180,10 @@ $(function () {
                 <p>Country: ${dataDetail.origin_country}</p>
             </div>
           </div>
-           
         `;
+        count++;
+        }
+        i++;
       }
     } catch (e) {
       console.error(e);
@@ -197,7 +200,12 @@ $(function () {
     try {
       let res = await fetch(upcommingUrl, options);
       let data = await res.json();
-      const id = Math.random() * 10 | 0;
+      let id = Math.random() * 10 | 0;
+      while(data.results[id].release_date < '2024-11-31'){
+        id = Math.random() * 10 | 0;
+      }
+      // console.log('data',data.results[id].release_date)
+      
       upcomming.innerHTML += `
           <div class="commingMovie">
           <img class='comming-movie-img' id="${data.results[id].id}" src="https://image.tmdb.org/t/p/w500/${data.results[id].poster_path}" alt="">
@@ -213,7 +221,7 @@ $(function () {
       // upcomming trailer play
       let lastScrollPosition = 0;
       const trailerBtn = document.querySelector('.upcomming-trailer');
-      
+
       // trailerBtn.addEventListener('click', () => {
       //   lastScrollPosition = window.scrollY;
       //   trailerHidden.classList.remove('trailer-hidden')
@@ -260,50 +268,58 @@ $(function () {
     });
   });
 
-  function creatModal(movie,container){
-  const modal = document.querySelector('.modal');
-  const modalContent = document.querySelector('.modal-content');
-  container.onclick = ()=>{
-    modal.style.display = 'block';
-    videoAll(movie, 'movie')
-  }
-  window.onclick = (e)=>{
-    if(e.target == modal){
-      modal.style.display = 'none';
-      trailerPlayer.innerHTML = '';
-      trailerPlayer.src = '';
+  function creatModal(movie, container) {
+    const modal = document.querySelector('.modal');
+    const modalContent = document.querySelector('.modal-content');
+    container.onclick = () => {
+      modal.style.display = 'block';
+      videoAll(movie, 'movie')
+    }
+    window.onclick = (e) => {
+      if (e.target == modal) {
+        modal.style.display = 'none';
+        trailerPlayer.innerHTML = '';
+        trailerPlayer.src = '';
+      }
     }
   }
-}
 
-const trailerPlayer = document.querySelector('#trailerPlayer');
-async function videoAll(id, mediaType) {
-  console.log('vidoeALL', id, mediaType)
-  try {
-    let res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos?language=en-US`, options);
-    let data = await res.json();
-    console.log(data)
-    const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-    console.log(trailer)
-    const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`
-    trailerPlayer.src = youtubeUrl;
+  const trailerPlayer = document.querySelector('#trailerPlayer');
+  async function videoAll(id, mediaType) {
+    console.log('vidoeALL', id, mediaType)
+    try {
+      let res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos?language=en-US`, options);
+      let data = await res.json();
+      // console.log('trailer',data.results)
+      const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+      console.log(trailer)
+      const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`
+      trailerPlayer.src = youtubeUrl;
 
 
-    
-    // type: 'Trailer'
-    // const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
 
-    // if (trailer) {
-    //   // build YouTube URL
-    //   // const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`;
-    //   // trailerPlayer.src = youtubeUrl;
-    // } else {
-    //   console.log('No trailer available for this movie.');
-    //   // trailerPlayer.parentElement.innerHTML = '<p>No trailer available for this movie.</p>';
-    // }
-  } catch (e) {
-    console.error(e);
+      // type: 'Trailer'
+      // const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+
+      // if (trailer) {
+      //   // build YouTube URL
+      //   // const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}`;
+      //   // trailerPlayer.src = youtubeUrl;
+      // } else {
+      //   console.log('No trailer available for this movie.');
+      //   // trailerPlayer.parentElement.innerHTML = '<p>No trailer available for this movie.</p>';
+      // }
+    } catch (e) {
+      console.error(e);
+    }
   }
-}
+
+  //Light/Dark mode
+  const switchMode = document.querySelector('#switch-mode');
+  const main = document.querySelector('main');
+  switchMode.onclick = () => {
+    main.classList.toggle('light-mode');
+  }
+
 
 })

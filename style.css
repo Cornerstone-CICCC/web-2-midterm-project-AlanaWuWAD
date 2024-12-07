@@ -137,9 +137,10 @@ dialog {
 }
 
 header {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     align-items: center;
     padding: 1rem 0;
     margin-bottom: 2rem;
@@ -151,9 +152,12 @@ header {
 }
 
 header h1{
+    position: absolute;
+    left: 43%;
     color: rgb(108, 211, 176);
 }
 header ul {
+    margin-left: 3rem;
     display: flex;
     justify-content: space-between;
     gap: 2rem;
@@ -178,7 +182,10 @@ header ul li a:hover,
     border-bottom: 2px solid white;
 }
 
-
+.search{
+    position: absolute;
+    left: 70%;
+}
 .search input {
     width: 200px;
     height: 1.5rem;
@@ -189,7 +196,20 @@ header ul li a:hover,
 .search i {
     font-size: 1.5rem;
 }
-
+.mode-container{
+    position: absolute;
+    left: 90%;
+}
+#switch-mode{
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
+    color: rgb(56, 55, 55);
+    font-weight: 600;
+}
+#switch-mode:hover{
+    background-color: aquamarine;
+}
 .trendingAll {
     display: flex;
     flex-wrap: nowrap;
@@ -437,4 +457,10 @@ footer i {
     width: 80%;
     border-radius: 5px;
     box-shadow: 4px 4px 4px 4px rgba(75, 74, 74, 0.6);
+}
+
+/* Light/Dark mode */
+.light-mode{
+    background-color: rgb(243, 248, 246);
+    color:black;
 }
