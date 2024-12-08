@@ -77,7 +77,7 @@ dialog {
     padding: 20px;
     box-shadow: 4px 4px 6px 6px rgba(140, 137, 137, 0.6);
     background-color: rgb(10, 17, 22);
-    z-index: 999;
+    z-index: 20;
     /* 高於 overlay */
 }
 
@@ -134,6 +134,16 @@ dialog {
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0px 2px 6px var(--grayish-Blue);
+}
+.img-list:hover{
+    box-shadow: 5px 5px 10px rgb(161, 160, 160);
+    cursor: pointer;
+}
+.div-img:hover p{
+    color: aquamarine;
+    text-shadow: 1px 1px 1px rgb(234, 237, 59);
+    cursor: pointer;
+
 }
 
 header {
@@ -454,6 +464,7 @@ footer i {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.2);
+    z-index: 99999;
 }
 
 .modal-content {

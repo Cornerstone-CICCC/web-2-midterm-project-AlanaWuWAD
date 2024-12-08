@@ -30,23 +30,44 @@ $(function () {
 
   async function search(name) {
     let searchUrl = `https://api.themoviedb.org/3/search/movie?query=${name}`;
+    const movieInstruction = document.querySelector('.instruction');
+    const modal = document.querySelector('.modal');
+    const dialog = document.querySelector('dialog');
+
     try {
       let res = await fetch(searchUrl, options);
       let data = await res.json();
-
+      // console.log('searchData',data)
       searchList.innerHTML = '';
       data.results.forEach((i) => {
         if (i.backdrop_path) {
           searchList.innerHTML += `
             <div class='div-img'>
               <p>${i.title}</p>
-              <img class='img-list' data-movie-id="${i.id}" src="https://image.tmdb.org/t/p/w200/${i.backdrop_path}" alt=""> 
+              <img class='img-list' id="${i.id}" src="https://image.tmdb.org/t/p/w200/${i.backdrop_path}" alt=""> 
             </div>  
-          `
+          `;
         }
         dialog.showModal(); //dialog method
       })
-
+      document.querySelectorAll('.img-list').forEach((img, i) => {
+        img.addEventListener('click', async (e) => {
+          const id = e.target.id; 
+          const item = data.results.find((item) => item.id === parseInt(id));
+          let popStar = parseFloat(item.vote_average.toFixed(1));
+          const mediaType = 'movie';
+          videoAll(id, mediaType);
+          movieInstruction.innerHTML = `
+            <h3 id='ins-name'>${item.title}</h3>
+            <h3>Overview: </h3>
+            <p>${item.overview}</p>
+            <h3>Type: ${mediaType}</h3> 
+            <h3>Popularity: ${popStar} /10 </h3>
+            <h3>Release Date: ${item.release_date}</h3>
+          `;
+          modal.style.display = 'flex';
+        })
+      })
     } catch (e) {
       console.error(e);
     }
@@ -86,7 +107,6 @@ $(function () {
       for (let i = 0; i < 10; i++) {
         let dataDetail = await movieDetail(data.results[i].id, 'movie');
         let popStar = parseFloat(data.results[i].vote_average.toFixed(1));
-
         trendingMovie.innerHTML += `
           <div class="movieName"><p>${data.results[i].title}</p>
           <img class='moviesTop10' id="${data.results[i].id}" src="https://image.tmdb.org/t/p/w300/${data.results[i].backdrop_path}" alt="">
@@ -332,6 +352,7 @@ $(function () {
       `;
     }
     if (media_type == 'movie') {
+      console.log('insI',data)
       container.innerHTML = `
         <h3 id='ins-name'>${data.results[i].title}</h3>
         <h3>Overview: </h3>
