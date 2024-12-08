@@ -166,7 +166,6 @@ $(function () {
       while (count < 10 && i < data.results.length) {
         let dataDetail = await movieDetail(data.results[i].id, 'tv');
         let popStar = parseFloat(data.results[i].vote_average.toFixed(1));
-
         if (data.results[i].backdrop_path) {
           trendingShow.innerHTML += `
           <div class="showName"><p>${data.results[i].name}</p>
@@ -180,16 +179,16 @@ $(function () {
         `;
           count++;
           const movieInstruction = document.querySelector('.instruction');
-
+          
           document.querySelectorAll('.showsTop10').forEach((img, i) => {
             img.addEventListener('click', async (e) => {
               const id = e.target.id; // 獲取點擊的圖片 ID
+              const index = data.results.findIndex((item) => item.id === parseInt(id));
               const mediaType = 'tv';
               const modal = document.querySelector('.modal');
-
               videoAll(id, mediaType);
               modal.style.display = 'flex';
-              addInstruction(data, movieInstruction, i, 'tv')
+              addInstruction(data, movieInstruction, index, 'tv')
 
             })
           })

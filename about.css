@@ -115,7 +115,9 @@ footer i {
    padding: 0.5rem;
    padding: 1rem;
 }
-.text p, li{
+.text p{
+    text-align: center;
+    width: 80%;
     font-size: 1.2rem;
     font-weight: 400;
     padding-bottom: 0.5rem;
@@ -136,3 +138,40 @@ footer i {
 .search i {
     font-size: 1.5rem;
 }
+
+@media (max-width: 768px){
+    header ul{
+        flex-direction: column;
+        margin-left: 1rem;
+        gap:1rem;
+    }
+    header ul li a{
+        font-size: 1rem;
+    }
+    header h1{
+        font-size: 1.5rem;
+        left: 35%;
+    }
+    .text {
+        align-items:flex-start;
+        height: auto;
+    }
+    .text h2{
+        padding: 0;
+        margin: 1rem 0;
+    }
+    .text p{
+        text-align: start;
+        width: 100%;
+        font-size: 1.3rem;
+    }
+    .text::before {
+        background-position: 0% 0%;
+        opacity: 0;
+    }
+    footer i{
+        font-size: 1.5rem;
+    }
+    
+}
+

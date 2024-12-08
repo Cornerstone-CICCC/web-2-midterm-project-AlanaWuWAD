@@ -35,8 +35,6 @@ body {
     display: none;
 }
 
-.dark-mode header {}
-
 #closeTrailer {
     position: absolute;
     top: 2px;
@@ -191,7 +189,6 @@ header ul li a:hover,
     color: white;
     border-bottom: 2px solid white;
 }
-
 .search{
     position: absolute;
     left: 70%;
@@ -481,6 +478,10 @@ footer i {
     border-radius: 5px;
     box-shadow: 4px 4px 4px 4px rgba(75, 74, 74, 0.6);
 }
+.modal-content iframe{
+    width:560px;
+    height:315px;
+}
 iframe, .instruction{
     flex: 1;
 }
@@ -495,4 +496,94 @@ iframe, .instruction{
 .light-mode{
     background-color: rgb(243, 248, 246);
     color:black;
+}
+
+
+@media (max-width: 768px) {
+    header ul{
+        flex-direction: column;
+        margin-left: 1rem;
+        gap:1rem;
+    }
+    header ul li a{
+        font-size: 1rem;
+    }
+    header h1{
+        font-size: 1.5rem;
+        left: 25%;
+    }
+    .search{
+        top: 35px;
+    }
+    .search input{
+        width: 70%;
+        height: auto;
+        margin-right: 3px;
+    }
+    .search i{
+        font-size: 1rem;
+    }
+    .mode-container{
+        top:3px;
+        left:90%;
+        width: 2rem;
+    }
+    #switch-mode{
+        padding: 2px;
+        font-size: 0.5rem;
+        padding: 0;
+        
+    }
+    .modal-content{
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+        padding: 1rem;
+    }
+    .modal-content iframe{
+        width:80%;
+        height:100%;
+    }
+    #ins-name{
+        font-size: 1.5rem;
+    }
+    .modal-content .instruction h3{
+        line-height: 1.5rem;
+        font-size: 1rem;
+    }
+    #comming-soon{
+        width: auto;
+        margin: 0;
+        clip-path: none;
+        background-color: var(--dark-Blue);
+        color: aliceblue;
+    }
+    .upcomming{
+        display: block;
+        height: auto;
+    }
+    .comming-movie-img {
+        width: 80%;
+        height: auto;
+    }
+    .movieInfo h1{
+        font-size: 2rem;
+    }
+    .movieInfo{
+        padding: 1rem;
+    }
+    .movieInfo p{
+        font-size: 1rem;
+    }
+    .upcomming-btn{
+        width: auto;
+        height: auto;
+        font-size: 1rem;
+        font-weight: 300;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    footer i{
+        font-size: 1.5rem;
+    }
 }

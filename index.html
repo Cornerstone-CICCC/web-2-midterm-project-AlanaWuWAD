@@ -17,25 +17,26 @@
     <main>
         <header>
             <ul>
-                <li><a href="#" class= 'active'>Home</a></li>
+                <li><a href="#" class='active'>Home</a></li>
                 <li><a href="./about.html" target="_blank">About</a></li>
             </ul>
             <h1>Popcorn Picks</h1>
-            <div class="search">
-                <input type="text" class="search-text" placeholder="movie name">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-            <div class="mode-container">
-                <button id="switch-mode">Switch Mode</button>
-            </div>
+                <div class="search">
+                    <input type="text" class="search-text" placeholder="movie name">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="mode-container">
+                    <button id="switch-mode">Switch Mode</button>
+                </div>
         </header>
         <div class="modal">
             <div class="modal-content">
-                <iframe width="560" height="315" id="trailerPlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <iframe id="trailerPlayer" allow="autoplay; encrypted-media"
+                    allowfullscreen></iframe>
                 <div class="instruction"></div>
             </div>
         </div>
-        
+
         <!-- dialog -->
         <div id="overlay" class="hidden"></div>
         <dialog>
@@ -54,7 +55,6 @@
 
         <h2 class="trend" id="comming-soon">Comming Soon !</h2>
         <section class="upcomming"></section>
-        <!-- <section class="upcomming-trailer"></section> -->
     </main>
     <footer>
         <div>
